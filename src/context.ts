@@ -5,6 +5,7 @@ export interface ActionInputs {
     registry: string;
     username: string;
     password: string;
+    logout: string;
 }
 
 export function getInputs(): ActionInputs {
@@ -12,5 +13,6 @@ export function getInputs(): ActionInputs {
         registry: core.getInput(Inputs.REGISTRY),
         username: core.getInput(Inputs.USERNAME),
         password: core.getInput(Inputs.PASSWORD),
+        logout: core.getInput(Inputs.LOGOUT),
     };
 }

@@ -24,7 +24,13 @@ jobs:
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
+          logout: true
 
-      - name: Verify
-        run: |
-          echo ${XDG_RUNTIME_DIR}/containers/auth.json
+      # - name: Verify
+      #   shell: bash
+      #   run: |
+      #     pwd
+      #     ls $HOME
+      #     cd $HOME
+      #     tree work
+      #     cat ${XDG_RUNTIME_DIR}/containers/auth.json

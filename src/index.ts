@@ -8,6 +8,7 @@ import * as io from "@actions/io";
 import * as os from "os";
 import { getInputs } from "./context";
 import { execute } from "./utils";
+import * as stateHelper from './state-helper';
 
 let podmanPath: string | undefined;
 
@@ -25,7 +26,11 @@ async function run(): Promise<void> {
         throw new Error("Only supported on linux platform");
     }
 
-    const { registry, username, password } = getInputs();
+    const {
+        registry, username, password, logout,
+    } = getInputs();
+
+    stateHelper.setLogout(logout);
 
     const args = [
         "login",
@@ -35,13 +40,25 @@ async function run(): Promise<void> {
         "-p",
         password,
     ];
-    try {
-        await execute(await getPodmanPath(), args);
-        core.info(`✅ Successfully logged in to ${registry}`);
-    }
-    catch (err) {
-        core.error(`Failed to login to ${registry}`);
-    }
+
+    await execute(await getPodmanPath(), args);
+    core.info(`✅ Successfully logged in to ${registry}`);
+
+    // if (logout) {
+    //     await execute(await getPodmanPath(), [ "logout", registry ]);
+    // }
 }
 
-run().catch(core.setFailed);
+async function logout(): Promise<void> {
+    if (!stateHelper.logout) {
+        return;
+      }
+    await execute(await getPodmanPath(), [ "logout", "quay.io" ]);
+}
+
+if (!stateHelper.IsPost) {
+    run().catch(core.setFailed);;
+}
+else {
+    logout().catch(core.setFailed);;
+}
