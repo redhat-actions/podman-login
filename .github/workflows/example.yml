@@ -1,0 +1,30 @@
+name: Test Login
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  REGISTRY_USER: diagrawa
+  IMAGE_REGISTRY: quay.io
+  REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
+jobs:
+  build-and-push:
+    name: Build and push image to Quay.io
+    runs-on: ubuntu-20.04
+    steps:
+
+      # Checkout podman login action github repository
+      - name: Checkout Podman login action
+        uses: actions/checkout@v2
+
+      - name: Login to Quay.io
+        uses: ./
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+
+      - name: Verify
+        run: |
+          echo ${XDG_RUNTIME_DIR}/containers/auth.json
