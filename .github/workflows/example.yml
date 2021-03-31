@@ -9,8 +9,8 @@ env:
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 jobs:
-  build-and-push:
-    name: Build and push image to Quay.io
+  login:
+    name: Login to container image registry
     runs-on: ubuntu-20.04
     steps:
 
@@ -25,12 +25,3 @@ jobs:
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
           logout: true
-
-      # - name: Verify
-      #   shell: bash
-      #   run: |
-      #     pwd
-      #     ls $HOME
-      #     cd $HOME
-      #     tree work
-      #     cat ${XDG_RUNTIME_DIR}/containers/auth.json
