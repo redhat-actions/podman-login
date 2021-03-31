@@ -13,6 +13,6 @@ export function getInputs(): ActionInputs {
         registry: core.getInput(Inputs.REGISTRY),
         username: core.getInput(Inputs.USERNAME),
         password: core.getInput(Inputs.PASSWORD),
-        logout: core.getInput(Inputs.LOGOUT),
+        logout: core.getInput(Inputs.LOGOUT) || "true",
     };
 }

@@ -10,14 +10,14 @@ inputs:
     required: true
   username:
     description: 'Username to login against the container image registry'
-    required: false
+    required: true
   password:
-    description: 'Password to login against the container image registry'
-    required: false
+    description: 'Password or token to login against the container image registry'
+    required: true
   logout:
-    description: 'Set to true if you want to logout at the end of the job'
+    description: 'Set to false if you do not want to logout at the end of the job'
     required: false
-    default: 'false'
+    default: 'true'
 
 runs:
   using: 'node12'

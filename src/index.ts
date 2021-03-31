@@ -46,7 +46,7 @@ async function run(): Promise<void> {
     core.info(`✅ Successfully logged in to ${registry}`);
 }
 
-async function logout(): Promise<void> {
+async function registryLogout(): Promise<void> {
     if (!stateHelper.logout) {
         return;
     }
@@ -57,5 +57,5 @@ if (!stateHelper.IsPost) {
     run().catch(core.setFailed);
 }
 else {
-    logout().catch(core.setFailed);
+    registryLogout().catch(core.setFailed);
 }
