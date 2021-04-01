@@ -27,7 +27,7 @@ async function run(): Promise<void> {
     }
 
     const {
-        registry, username, password, logout,  // eslint-disable-line @typescript-eslint/no-shadow
+        registry, username, password, logout,
     } = getInputs();
 
     stateHelper.setRegistry(registry);
