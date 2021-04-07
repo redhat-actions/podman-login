@@ -15,7 +15,7 @@ let podmanPath: string | undefined;
 async function getPodmanPath(): Promise<string> {
     if (podmanPath == null) {
         podmanPath = await io.which("podman", true);
-        await execute(podmanPath, [ "version" ]);
+        await execute(podmanPath, [ "version" ], { group: true });
     }
 
     return podmanPath;
@@ -43,7 +43,7 @@ async function run(): Promise<void> {
     ];
 
     await execute(await getPodmanPath(), args);
-    core.info(`✅ Successfully logged in to ${registry}`);
+    core.info(`✅ Successfully logged in to ${registry} as ${username}`);
 }
 
 async function registryLogout(): Promise<void> {
