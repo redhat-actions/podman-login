@@ -8,11 +8,13 @@
 [![license badge](https://img.shields.io/github/license/redhat-actions/podman-login)](./LICENSE)
 [![size badge](https://img.shields.io/github/size/redhat-actions/podman-login/dist/index.js)](./dist)
 
-Podman login is a GitHub Action to login against a container image registry.
+Podman Login is a GitHub Action to log in to a container image registry.
+
+After logging in, you can work with the registry as an authenticated user, performing actions such as pushing an image, or pulling a private image. On GitHub runners, the authentication will be deleted at the end of each job as the workspace is cleaned up.
+
+Also see [push-to-registry](https://github.com/redhat-actions/push-to-registry) and [buildah-build](https://github.com/redhat-actions/buildah-build) for related actions that can make use of this authentication.
 
 This action only runs on Linux, as it uses [podman](https://github.com/containers/Podman) to perform the login. [GitHub's Ubuntu action runners](https://github.com/actions/virtual-environments#available-environments) come with Podman preinstalled. If you are not using those runners, you must first [install Podman](https://podman.io/getting-started/installation).
-
-After logging to container image registry, you may use [push-to-registry](https://github.com/redhat-actions/push-to-registry) to push the image and make it pullable.
 
 <a id="action-inputs"></a>
 
@@ -20,10 +22,10 @@ After logging to container image registry, you may use [push-to-registry](https:
 
 | Input Name | Description | Default |
 | ---------- | ----------- | ------- |
-| registry | Server URL of the container image registry. Example: `quay.io` | **Must be provided**
+| registry | Hostname/domain of the container image registry such as `quay.io`, `docker.io`. | **Must be provided**
 | username | Username to login against the container image registry. | **Must be provided**
-| password | Password or token to login against the container image registry. | **Must be provided**
-| logout | Set to `false` if you don't want to logout to container image registry at the end of the job. | `true`
+| password | Password, encrypted password, or access token for `username`. | **Must be provided**
+| logout | By default, the action logs out of the container image registry at the end of the job (for self-hosted runners). Set this to `false` to disable this behaviour. | `true`
 
 ## Example
 
@@ -35,13 +37,13 @@ on:
   push:
 
 env:
-  REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+  REGISTRY_USER: quayuser
   IMAGE_REGISTRY: quay.io
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 jobs:
   login:
-    name: Login to container image registry
+    name: Log in to image registry
     runs-on: ubuntu-20.04
     steps:
 
@@ -51,5 +53,6 @@ jobs:
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
-          logout: false # Do not logout at the end of the job
+
+      # Now you can push images, and pull private ones, from quay.io as 'quayuser'.
 ```
