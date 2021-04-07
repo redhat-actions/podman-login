@@ -10,18 +10,15 @@ env:
 
 jobs:
   login:
-    name: Login to container image registry
+    name: Log in to registry
     runs-on: ubuntu-20.04
     steps:
 
-      # Checkout podman login action github repository
-      - name: Checkout Podman login action
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Login to Quay.io
+      - name: Log in to quay.io
         uses: ./
         with:
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
-          logout: false
