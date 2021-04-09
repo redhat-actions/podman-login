@@ -1,21 +1,23 @@
-name: 'Podman login'
-description: 'GitHub Action to login against a container image registry'
+name: 'Podman Login'
+description: 'Log into a container image registry'
 author: 'Red Hat'
 branding:
   icon: circle
   color: red
 inputs:
   registry:
-    description: 'Server URL of the container image registry'
+    description: 'Hostname/domain of the container image registry such as quay.io, docker.io'
     required: true
   username:
-    description: 'Username to login against the container image registry'
+    description: 'Username to log in against the container image registry'
     required: true
   password:
-    description: 'Password or token to login against the container image registry'
+    description: 'Password, encrypted password, or access token for username'
     required: true
   logout:
-    description: 'Set to false if you do not want to logout at the end of the job'
+    description: |
+      'By default, the action logs out of the container image registry at the end
+      of the job (for self-hosted runners). Set this to false to disable this behaviour'
     required: false
     default: 'true'
 
