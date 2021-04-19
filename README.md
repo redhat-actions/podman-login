@@ -57,13 +57,15 @@ jobs:
       # Now you can push images, and pull private ones, from quay.io as 'quayuser'.
 ```
 
-Logging into `github`'s container registry is just as easy:
+Logging into GitHub's container registry is just as easy:
 
 ```yaml
 name: Log in to ghcr.io
 on:
   push:
 
+# Refer to https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
+# for information about the 'github' context object.
 env:
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
@@ -74,7 +76,7 @@ jobs:
     name: Log in to GitHub Container Registry
     runs-on: ubuntu-20.04
     steps:
-      - name: Log in to ghrc.io
+      - name: Log in to ghcr.io
         uses: redhat-actions/podman-login@v1
         with:
           username: ${{ env.REGISTRY_USER }}
