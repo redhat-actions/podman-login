@@ -27,7 +27,7 @@ This action only runs on `Linux`, as it uses [podman](https://github.com/contain
 | password | Password, encrypted password, or access token for `username`. | **Must be provided**
 | logout | By default, the action logs out of the container image registry at the end of the job (for self-hosted runners). Set this to `false` to disable this behaviour. | `true`
 
-## Example
+## Examples
 
 The example below shows how the `podman-login` action can be used to log in to `quay.io` container image registry.
 
@@ -55,4 +55,31 @@ jobs:
           registry: ${{ env.IMAGE_REGISTRY }}
 
       # Now you can push images, and pull private ones, from quay.io as 'quayuser'.
+```
+
+Logging into `github`'s container registry is just as easy:
+
+```yaml
+name: Log in to ghcr.io
+on:
+  push:
+
+env:
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ github.token }}
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+
+jobs:
+  login:
+    name: Log in to GitHub Container Registry
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Log in to ghrc.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+
+      # Now you can push images, and pull private ones, from ghcr.io.
 ```
