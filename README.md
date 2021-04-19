@@ -54,7 +54,7 @@ jobs:
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
 
-      # Now you can push images, and pull private ones, from quay.io as 'quayuser'.
+  # Now you can push images, and pull private ones, from quay.io as 'quayuser'.
 ```
 
 Logging into GitHub's container registry is just as easy:
@@ -64,8 +64,6 @@ name: Log in to ghcr.io
 on:
   push:
 
-# Refer to https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
-# for information about the 'github' context object.
 env:
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
@@ -83,5 +81,8 @@ jobs:
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
 
-      # Now you can push images, and pull private ones, from ghcr.io.
+  # Now you can push images, and pull private ones, from ghcr.io.
 ```
+
+Refer to the [GitHub documentation](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context)
+for information about the `github` context object.
