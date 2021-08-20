@@ -50,7 +50,8 @@ async function run(): Promise<void> {
     // this environment variable to point to registry auth file
     const podmanAuthFilePath = path.join("/", "tmp", `podman-run-${process.getuid()}`,
         "containers", "auth.json");
-    core.debug(`Setting up the environment variable REGISTRY_AUTH_FILE to ${podmanAuthFilePath}`);
+    const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
+    core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
     core.exportVariable("REGISTRY_AUTH_FILE", podmanAuthFilePath);
 }
 
