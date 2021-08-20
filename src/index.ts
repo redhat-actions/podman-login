@@ -52,7 +52,7 @@ async function run(): Promise<void> {
         "containers", "auth.json");
     const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
     core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
-    core.exportVariable("REGISTRY_AUTH_ENVVAR", podmanAuthFilePath);
+    core.exportVariable(REGISTRY_AUTH_ENVVAR, podmanAuthFilePath);
 }
 
 async function registryLogout(): Promise<void> {
