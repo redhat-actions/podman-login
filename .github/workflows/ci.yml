@@ -2,6 +2,8 @@ name: CI checks
 on:
   push:
   pull_request:
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight
 
 jobs:
   lint:
@@ -12,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm run lint
-  
+
   check-dist:
     name: Check Distribution
     runs-on: ubuntu-20.04
@@ -30,7 +32,7 @@ jobs:
         with:
           bundle_file: ${{ env.BUNDLE_FILE }}
           bundle_command: ${{ env.BUNDLE_COMMAND }}
-  
+
   check-inputs-outputs:
     name: Check Input and Output enums
     runs-on: ubuntu-20.04
@@ -41,7 +43,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-    
+
       - name: Verify Input and Output enums
         uses: redhat-actions/common/action-io-generator@v1
         with:

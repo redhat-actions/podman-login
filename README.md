@@ -1,6 +1,6 @@
 # podman-login
 [![CI checks](https://github.com/redhat-actions/podman-login/workflows/CI%20checks/badge.svg)](https://github.com/redhat-actions/podman-login/actions?query=workflow%3A%22CI+checks%22)
-[![Build](https://github.com/redhat-actions/podman-login/workflows/Test%20Login/badge.svg)](https://github.com/redhat-actions/podman-login/actions?query=workflow%3ABuild)
+[![Test Login and Pull](https://github.com/redhat-actions/podman-login/actions/workflows/example.yml/badge.svg)](https://github.com/redhat-actions/podman-login/actions/workflows/example.yml)
 [![Link checker](https://github.com/redhat-actions/podman-login/workflows/Link%20checker/badge.svg)](https://github.com/redhat-actions/podman-login/actions?query=workflow%3A%22Link+checker%22)
 <br>
 <br>

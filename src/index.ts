@@ -6,6 +6,7 @@
 import * as core from "@actions/core";
 import * as io from "@actions/io";
 import * as os from "os";
+import * as path from "path";
 import { getInputs } from "./context";
 import { execute } from "./utils";
 import * as stateHelper from "./state-helper";
@@ -44,6 +45,14 @@ async function run(): Promise<void> {
 
     await execute(await getPodmanPath(), args);
     core.info(`✅ Successfully logged in to ${registry} as ${username}`);
+
+    // Setting REGISTRY_AUTH_FILE environment variable as buildah needs
+    // this environment variable to point to registry auth file
+    const podmanAuthFilePath = path.join("/", "tmp", `podman-run-${process.getuid()}`,
+        "containers", "auth.json");
+    const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
+    core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
+    core.exportVariable(REGISTRY_AUTH_ENVVAR, podmanAuthFilePath);
 }
 
 async function registryLogout(): Promise<void> {

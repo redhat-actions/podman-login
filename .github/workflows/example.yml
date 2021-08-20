@@ -1,16 +1,19 @@
-name: Test Login
+name: Test Login and Pull
 on:
   push:
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight
 
 env:
-  REGISTRY_USER: diagrawa
+  IMAGE_PATH: quay.io/redhat-github-actions/petclinic-private:latest
+  REGISTRY_USER: redhat-github-actions+redhat_actions_ci_puller
   IMAGE_REGISTRY: quay.io
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 jobs:
-  login:
-    name: Log in to registry
+  podman-pull:
+    name: Log in and pull image with Podman
     runs-on: ubuntu-20.04
     steps:
 
@@ -22,3 +25,23 @@ jobs:
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
+
+      - name: Pull image with Podman
+        run: podman pull ${{ env.IMAGE_PATH }}
+
+  buildah-pull:
+    name: Log in and pull image with Buildah
+    runs-on: ubuntu-20.04
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Log in to quay.io
+        uses: ./
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+
+      - name: Pull image with Buildah
+        run: buildah pull ${{ env.IMAGE_PATH }}
