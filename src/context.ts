@@ -10,9 +10,9 @@ export interface ActionInputs {
 
 export function getInputs(): ActionInputs {
     return {
-        registry: core.getInput(Inputs.REGISTRY),
-        username: core.getInput(Inputs.USERNAME),
-        password: core.getInput(Inputs.PASSWORD),
+        registry: core.getInput(Inputs.REGISTRY, { required: true }),
+        username: core.getInput(Inputs.USERNAME, { required: true }),
+        password: core.getInput(Inputs.PASSWORD, { required: true }),
         logout: core.getInput(Inputs.LOGOUT) || "true",
     };
 }
