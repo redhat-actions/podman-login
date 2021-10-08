@@ -1,7 +1,10 @@
 # podman-login Changelog
 
+## v1.1.1
+-  Throw an error if required inputs are not provided
+
 ## v1.1
-Set environment variable REGISTRY_AUTH_FILE with the generated auth file to work with buildah
+- Set environment variable REGISTRY_AUTH_FILE with the generated auth file to work with buildah
 
 ## v1
-Initial Release
+- Initial Release
