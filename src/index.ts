@@ -48,7 +48,11 @@ async function run(): Promise<void> {
 
     // Setting REGISTRY_AUTH_FILE environment variable as buildah needs
     // this environment variable to point to registry auth file
-    const podmanAuthFilePath = path.join("/", "tmp", `podman-run-${process.getuid()}`,
+    let authFileDir = path.join("/", "tmp", `podman-run-${process.getuid()}`);
+    if (process.env.XDG_RUNTIME_DIR) {
+        authFileDir = process.env.XDG_RUNTIME_DIR;
+    }
+    const podmanAuthFilePath = path.join(authFileDir,
         "containers", "auth.json");
     const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
     core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
