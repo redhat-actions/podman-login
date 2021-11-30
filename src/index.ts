@@ -4,14 +4,17 @@
  **************************************************************************************************/
 
 import * as core from "@actions/core";
+import { promises as fs } from "fs";
 import * as io from "@actions/io";
 import * as os from "os";
 import * as path from "path";
-import { getInputs } from "./context";
-import { execute } from "./utils";
+import { execute, getDockerConfigJson } from "./utils";
 import * as stateHelper from "./state-helper";
+import { Inputs } from "./generated/inputs-outputs";
 
 let podmanPath: string | undefined;
+let registry: string;
+const dockerConfigPath = path.join(os.homedir(), ".docker", "config.json");
 
 async function getPodmanPath(): Promise<string> {
     if (podmanPath == null) {
@@ -27,9 +30,10 @@ async function run(): Promise<void> {
         throw new Error("❌ Only supported on linux platform");
     }
 
-    const {
-        registry, username, password, logout,
-    } = getInputs();
+    registry = core.getInput(Inputs.REGISTRY, { required: true });
+    const username = core.getInput(Inputs.USERNAME, { required: true });
+    const password = core.getInput(Inputs.PASSWORD, { required: true });
+    const logout = core.getInput(Inputs.LOGOUT) || "true";
 
     stateHelper.setRegistry(registry);
     stateHelper.setLogout(logout);
@@ -42,7 +46,6 @@ async function run(): Promise<void> {
         "-p",
         password,
     ];
-
     await execute(await getPodmanPath(), args);
     core.info(`✅ Successfully logged in to ${registry} as ${username}`);
 
@@ -57,6 +60,17 @@ async function run(): Promise<void> {
     const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
     core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
     core.exportVariable(REGISTRY_AUTH_ENVVAR, podmanAuthFilePath);
+
+    const podmanConfigJson = await fs.readFile(podmanAuthFilePath, "utf-8");
+    const podmanConfig = JSON.parse(podmanConfigJson);
+    const generatedAuth = podmanConfig.auths[registry];
+
+    core.info(`✍️ Writing registry credentials to "${dockerConfigPath}"`);
+    const dockerConfig = JSON.parse(await getDockerConfigJson());
+
+    dockerConfig.auths[registry] = generatedAuth;
+
+    await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
 }
 
 async function registryLogout(): Promise<void> {
@@ -64,6 +78,11 @@ async function registryLogout(): Promise<void> {
         return;
     }
     await execute(await getPodmanPath(), [ "logout", stateHelper.registry ]);
+
+    const dockerConfig = JSON.parse(await getDockerConfigJson());
+    core.info(`Removing registry credentials from "${dockerConfigPath}"`);
+    delete dockerConfig.auths[registry];
+    await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
 }
 
 if (!stateHelper.IsPost) {

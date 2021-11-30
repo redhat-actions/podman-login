@@ -1,6 +1,7 @@
 name: Test Login and Pull
 on:
   push:
+  pull_request_target:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'  # every day at midnight
@@ -42,6 +43,10 @@ jobs:
   buildah-pull:
     name: Log in and pull image with Buildah
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        install_latest: [ true, false ]
     steps:
 
       - uses: actions/checkout@v2
@@ -50,7 +55,7 @@ jobs:
         if: matrix.install_latest
         run: |
           bash .github/install_latest_podman.sh
-        
+
       - name: Log in to quay.io
         uses: ./
         with:
@@ -60,3 +65,29 @@ jobs:
 
       - name: Pull image with Buildah
         run: buildah pull ${{ env.IMAGE_PATH }}
+
+  docker-pull:
+    name: Log in and pull image with Docker
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        install_latest: [ true, false ]
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Install latest podman
+        if: matrix.install_latest
+        run: |
+          bash .github/install_latest_podman.sh
+
+      - name: Log in to quay.io
+        uses: ./
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+
+      - name: Pull image with Docker
+        run: docker pull ${{ env.IMAGE_PATH }}

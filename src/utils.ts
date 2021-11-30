@@ -6,6 +6,8 @@
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
 import * as path from "path";
+import { promises as fs } from "fs";
+import * as os from "os";
 
 interface ExecResult {
     exitCode: number;
@@ -63,4 +65,9 @@ export async function execute(
             core.endGroup();
         }
     }
+}
+
+export async function getDockerConfigJson(): Promise<string> {
+    const dockerConfigPath = path.join(os.homedir(), ".docker", "config.json");
+    return fs.readFile(dockerConfigPath, "utf-8");
 }
