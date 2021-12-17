@@ -1,5 +1,8 @@
 # podman-login Changelog
 
+## v1.2
+- Add ability to pull image from docker after login. https://github.com/redhat-actions/podman-login/issues/15
+
 ## v1.1.2
 - Use `XDG_RUNTIME_DIR` if set for podman auth file
 
