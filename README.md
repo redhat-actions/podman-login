@@ -26,6 +26,7 @@ This action only runs on `Linux`, as it uses [podman](https://github.com/contain
 | username | Username to log in against the container image registry. | **Must be provided**
 | password | Password, encrypted password, or access token for `username`. | **Must be provided**
 | logout | By default, the action logs out of the container image registry at the end of the job (for self-hosted runners). Set this to `false` to disable this behaviour. | `true`
+| auth_file_path | Path of the authentication file, this will override the default auth file path in podman | Default set in podman |
 
 ## Examples
 
@@ -84,5 +85,5 @@ jobs:
   # Now you can push images, and pull private ones, from ghcr.io.
 ```
 
-Refer to the [GitHub documentation](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context)
+Refer to the [GitHub documentation](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context) <!-- markdown-link-check-disable-line -->
 for information about the `github` context object.

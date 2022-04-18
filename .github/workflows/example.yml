@@ -36,6 +36,7 @@ jobs:
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           registry: ${{ env.IMAGE_REGISTRY }}
+          auth_file_path: ./auth/auth.json
 
       - name: Pull image with Podman
         run: podman pull ${{ env.IMAGE_PATH }}
