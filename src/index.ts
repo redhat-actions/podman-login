@@ -34,6 +34,7 @@ async function run(): Promise<void> {
     const username = core.getInput(Inputs.USERNAME, { required: true });
     const password = core.getInput(Inputs.PASSWORD, { required: true });
     const logout = core.getInput(Inputs.LOGOUT) || "true";
+    const authFilePath = core.getInput(Inputs.AUTH_FILE_PATH);
 
     stateHelper.setRegistry(registry);
     stateHelper.setLogout(logout);
@@ -46,17 +47,29 @@ async function run(): Promise<void> {
         "-p",
         password,
     ];
+
+    args.push("--verbose");
+    if (authFilePath) {
+        args.push(`--authfile=${authFilePath}`);
+    }
     await execute(await getPodmanPath(), args);
     core.info(`✅ Successfully logged in to ${registry} as ${username}`);
 
     // Setting REGISTRY_AUTH_FILE environment variable as buildah needs
     // this environment variable to point to registry auth file
-    let authFileDir = path.join("/", "tmp", `podman-run-${process.getuid()}`);
-    if (process.env.XDG_RUNTIME_DIR) {
-        authFileDir = process.env.XDG_RUNTIME_DIR;
+
+    let podmanAuthFilePath;
+    if (authFilePath) {
+        podmanAuthFilePath = authFilePath;
     }
-    const podmanAuthFilePath = path.join(authFileDir,
-        "containers", "auth.json");
+    else {
+        let authFileDir = path.join("/", "tmp", `podman-run-${process.getuid()}`);
+        if (process.env.XDG_RUNTIME_DIR) {
+            authFileDir = process.env.XDG_RUNTIME_DIR;
+        }
+        podmanAuthFilePath = path.join(authFileDir,
+            "containers", "auth.json");
+    }
     const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
     core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
     core.exportVariable(REGISTRY_AUTH_ENVVAR, podmanAuthFilePath);
