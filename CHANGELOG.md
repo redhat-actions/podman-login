@@ -1,13 +1,11 @@
 # podman-login Changelog
 
+## v1.3
+- Add support to provide custom auth file path instead of using default ones set by podman. More details [here](https://github.com/redhat-actions/podman-login/issues/19).
+- Add `--verbose` flag in the login command that will give more detailed output.
+
 ## v1.2
 - Add ability to pull image from docker after login. https://github.com/redhat-actions/podman-login/issues/15
-
-## v1.1.2
-- Use `XDG_RUNTIME_DIR` if set for podman auth file
-
-## v1.1.1
--  Throw an error if required inputs are not provided
 
 ## v1.1
 - Set environment variable `REGISTRY_AUTH_FILE` with the generated auth file to work with buildah
