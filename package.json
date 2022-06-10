@@ -2,7 +2,7 @@
   "name": "podman-login",
   "version": "1.0.0",
   "engines": {
-    "node": "12"
+    "node": "16"
   },
   "description": "GitHub Action to log in against a container image registry",
   "repository": {
@@ -30,7 +30,7 @@
     "@redhat-actions/action-io-generator": "^1.5.0",
     "@redhat-actions/eslint-config": "^1.2.11",
     "@redhat-actions/tsconfig": "^1.1.1",
-    "@types/node": "^12",
+    "@types/node": "^16",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "@vercel/ncc": "^0.25.1",
