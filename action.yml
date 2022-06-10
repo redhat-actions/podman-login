@@ -17,6 +17,10 @@ inputs:
   auth_file_path:
     description: 'Path of the authentication file, this will override the default auth file path in podman'
     required: false
+  disable_docker_integration:
+    description: 'Set to true if there is no Docker installed and you only want to use Podman'
+    required: false
+    default: 'false'
   logout:
     description: |
       'By default, the action logs out of the container image registry at the end

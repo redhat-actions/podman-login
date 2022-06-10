@@ -7,6 +7,12 @@ export enum Inputs {
      */
     AUTH_FILE_PATH = "auth_file_path",
     /**
+     * Set to true if there is no Docker installed and you only want to use Podman
+     * Required: false
+     * Default: "false"
+     */
+    DISABLE_DOCKER_INTEGRATION = "disable_docker_integration",
+    /**
      * 'By default, the action logs out of the container image registry at the end
      * of the job (for self-hosted runners). Set this to false to disable this behaviour'
      * Required: false

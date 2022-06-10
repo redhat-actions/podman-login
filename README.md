@@ -27,6 +27,7 @@ This action only runs on `Linux`, as it uses [podman](https://github.com/contain
 | password | Password, encrypted password, or access token for `username`. | **Must be provided**
 | logout | By default, the action logs out of the container image registry at the end of the job (for self-hosted runners). Set this to `false` to disable this behaviour. | `true`
 | auth_file_path | Path of the authentication file, this will override the default auth file path in podman | Default set in podman |
+| disable_docker_integration | By default the action stores the authentication info for the Docker daemon as well. Set to `true` if you only have Podman installed. | `false`
 
 ## Examples
 

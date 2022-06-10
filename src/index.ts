@@ -35,9 +35,11 @@ async function run(): Promise<void> {
     const password = core.getInput(Inputs.PASSWORD, { required: true });
     const logout = core.getInput(Inputs.LOGOUT) || "true";
     const authFilePath = core.getInput(Inputs.AUTH_FILE_PATH);
+    const disableDockerIntegration = core.getInput(Inputs.DISABLE_DOCKER_INTEGRATION) || "false";
 
     stateHelper.setRegistry(registry);
     stateHelper.setLogout(logout);
+    stateHelper.setDisableDockerIntegration(disableDockerIntegration);
 
     const args = [
         "login",
@@ -78,12 +80,14 @@ async function run(): Promise<void> {
     const podmanConfig = JSON.parse(podmanConfigJson);
     const generatedAuth = podmanConfig.auths[registry];
 
-    core.info(`✍️ Writing registry credentials to "${dockerConfigPath}"`);
-    const dockerConfig = JSON.parse(await getDockerConfigJson());
+    if (!disableDockerIntegration) {
+        core.info(`✍️ Writing registry credentials to "${dockerConfigPath}"`);
+        const dockerConfig = JSON.parse(await getDockerConfigJson());
 
-    dockerConfig.auths[registry] = generatedAuth;
+        dockerConfig.auths[registry] = generatedAuth;
 
-    await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
+        await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
+    }
 }
 
 async function registryLogout(): Promise<void> {
@@ -92,10 +96,12 @@ async function registryLogout(): Promise<void> {
     }
     await execute(await getPodmanPath(), [ "logout", stateHelper.registry ]);
 
-    const dockerConfig = JSON.parse(await getDockerConfigJson());
-    core.info(`Removing registry credentials from "${dockerConfigPath}"`);
-    delete dockerConfig.auths[registry];
-    await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
+    if (!stateHelper.disableDockerIntegration) {
+        const dockerConfig = JSON.parse(await getDockerConfigJson());
+        core.info(`Removing registry credentials from "${dockerConfigPath}"`);
+        delete dockerConfig.auths[registry];
+        await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
+    }
 }
 
 if (!stateHelper.IsPost) {
