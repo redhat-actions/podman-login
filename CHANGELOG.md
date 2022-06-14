@@ -1,5 +1,8 @@
 # podman-login Changelog
 
+## v1.4
+- Add ability to login to AWS ECR repositories. More details at https://github.com/redhat-actions/podman-login/issues/23
+
 ## v1.3
 - Add support to provide custom auth file path instead of using default ones set by podman. More details [here](https://github.com/redhat-actions/podman-login/issues/19).
 - Add `--verbose` flag in the login command that will give more detailed output.
