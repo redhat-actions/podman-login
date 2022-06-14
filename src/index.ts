@@ -8,6 +8,7 @@ import { promises as fs } from "fs";
 import * as io from "@actions/io";
 import * as os from "os";
 import * as path from "path";
+import * as ecr from "./ecr";
 import { execute, getDockerConfigJson } from "./utils";
 import * as stateHelper from "./state-helper";
 import { Inputs } from "./generated/inputs-outputs";
@@ -31,10 +32,17 @@ async function run(): Promise<void> {
     }
 
     registry = core.getInput(Inputs.REGISTRY, { required: true });
-    const username = core.getInput(Inputs.USERNAME, { required: true });
-    const password = core.getInput(Inputs.PASSWORD, { required: true });
+    let username = core.getInput(Inputs.USERNAME, { required: true });
+    let password = core.getInput(Inputs.PASSWORD, { required: true });
     const logout = core.getInput(Inputs.LOGOUT) || "true";
     const authFilePath = core.getInput(Inputs.AUTH_FILE_PATH);
+
+    if (ecr.isECR(registry)) {
+        core.info(`💡 Detected ${registry} as an ECR repository`);
+        const ECRData = await ecr.getECRToken(registry, username, password);
+        username = ECRData.username;
+        password = ECRData.password;
+    }
 
     stateHelper.setRegistry(registry);
     stateHelper.setLogout(logout);

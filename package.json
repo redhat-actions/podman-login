@@ -23,7 +23,8 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/exec": "^1.0.4",
-    "@actions/io": "^1.0.2"
+    "@actions/io": "^1.0.2",
+    "@aws-sdk/client-ecr": "^3.100.0"
   },
   "devDependencies": {
     "@redhat-actions/action-io-generator": "^1.5.0",

@@ -85,5 +85,32 @@ jobs:
   # Now you can push images, and pull private ones, from ghcr.io.
 ```
 
+It is also possible to login to AWS ECR repositories:
+
+```yaml
+name: Log in to ECR
+on:
+  push:
+
+env:
+  REGISTRY_USER: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  REGISTRY_PASSWORD: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  IMAGE_REGISTRY: 123456789012.dkr.ecr.eu-west-1.amazonaws.com
+
+jobs:
+  login:
+    name: Log in to AWS ECR Registry
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Log in to AWS ECR
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+
+  # Now you can push images, and pull private ones, from ECR.
+```
+
 Refer to the [GitHub documentation](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context) <!-- markdown-link-check-disable-line -->
 for information about the `github` context object.
