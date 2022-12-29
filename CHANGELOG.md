@@ -1,5 +1,8 @@
 # podman-login Changelog
 
+## v1.5
+- Update action to run on Node16. https://github.blog/changelog/2022-05-20-actions-can-now-run-in-a-node-js-16-runtime/
+
 ## v1.4
 - Add ability to login to AWS ECR repositories. More details at https://github.com/redhat-actions/podman-login/issues/23
 
