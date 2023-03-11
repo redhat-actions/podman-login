@@ -23,7 +23,7 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install latest podman
         if: matrix.install_latest
@@ -50,7 +50,7 @@ jobs:
         install_latest: [ true, false ]
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install latest podman
         if: matrix.install_latest
@@ -76,7 +76,7 @@ jobs:
         install_latest: [ true, false ]
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install latest podman
         if: matrix.install_latest

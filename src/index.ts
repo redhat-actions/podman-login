@@ -75,8 +75,7 @@ async function run(): Promise<void> {
         if (process.env.XDG_RUNTIME_DIR) {
             authFileDir = process.env.XDG_RUNTIME_DIR;
         }
-        podmanAuthFilePath = path.join(authFileDir,
-            "containers", "auth.json");
+        podmanAuthFilePath = path.join(authFileDir, "containers", "auth.json");
     }
     const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
     core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
