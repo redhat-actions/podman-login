@@ -24,7 +24,7 @@
     "@actions/core": "^1.10.0",
     "@actions/exec": "^1.0.4",
     "@actions/io": "^1.0.2",
-    "@aws-sdk/client-ecr": "^3.100.0",
+    "@aws-sdk/client-ecr": "^3.350.0",
     "@aws-sdk/util-base64": "^3.208.0"
   },
   "devDependencies": {
