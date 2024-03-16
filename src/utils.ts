@@ -69,5 +69,6 @@ export async function execute(
 
 export async function getDockerConfigJson(): Promise<string> {
     const dockerConfigPath = path.join(os.homedir(), ".docker", "config.json");
-    return fs.readFile(dockerConfigPath, "utf-8");
+    return fs.readFile(dockerConfigPath, "utf-8")
+        .catch((err) => { if (err.code === 'ENOENT') { return '{"auths":{}}'; } throw err; });
 }
