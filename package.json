@@ -2,7 +2,7 @@
   "name": "podman-login",
   "version": "1.0.0",
   "engines": {
-    "node": "16"
+    "node": "20"
   },
   "description": "GitHub Action to log in against a container image registry",
   "repository": {
@@ -21,21 +21,21 @@
   "author": "Red Hat",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "@actions/exec": "^1.0.4",
-    "@actions/io": "^1.0.2",
-    "@aws-sdk/client-ecr": "^3.350.0",
-    "@aws-sdk/util-base64": "^3.208.0"
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/io": "^1.1.3",
+    "@aws-sdk/client-ecr": "^3.535.0",
+    "@aws-sdk/util-base64": "^3.310.0"
   },
   "devDependencies": {
     "@redhat-actions/action-io-generator": "^1.5.0",
     "@redhat-actions/eslint-config": "^1.3.2",
     "@redhat-actions/tsconfig": "^1.2.0",
-    "@types/node": "^16.18.11",
-    "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "@typescript-eslint/parser": "^4.33.0",
-    "@vercel/ncc": "^0.36.1",
-    "eslint": "^7.32.0",
-    "typescript": "^4.9.5"
+    "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.2"
   }
 }

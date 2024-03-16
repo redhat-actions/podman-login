@@ -71,7 +71,8 @@ async function run(): Promise<void> {
         podmanAuthFilePath = authFilePath;
     }
     else {
-        let authFileDir = path.join("/", "tmp", `podman-run-${process.getuid()}`);
+        // process.getuid might be undefined
+        let authFileDir = path.join("/", "tmp", `podman-run-${process.getuid ? process.getuid() : null}`);
         if (process.env.XDG_RUNTIME_DIR) {
             authFileDir = process.env.XDG_RUNTIME_DIR;
         }
