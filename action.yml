@@ -14,6 +14,10 @@ inputs:
   password:
     description: 'Password, encrypted password, or access token for username'
     required: true
+  tls-verify:
+    description: 'Verify TLS certificates when contacting the registry'
+    required: false
+    default: 'true'
   auth_file_path:
     description: 'Path of the authentication file, this will override the default auth file path in podman'
     required: false
