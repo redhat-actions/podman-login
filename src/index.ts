@@ -34,6 +34,7 @@ async function run(): Promise<void> {
     registry = core.getInput(Inputs.REGISTRY, { required: true });
     let username = core.getInput(Inputs.USERNAME, { required: true });
     let password = core.getInput(Inputs.PASSWORD, { required: true });
+    const tlsVerify = core.getInput(Inputs.TLS_VERIFY) || "true";
     const logout = core.getInput(Inputs.LOGOUT) || "true";
     const authFilePath = core.getInput(Inputs.AUTH_FILE_PATH);
 
@@ -59,6 +60,9 @@ async function run(): Promise<void> {
     args.push("--verbose");
     if (authFilePath) {
         args.push(`--authfile=${authFilePath}`);
+    }
+    if (tlsVerify) {
+        args.push(`--tls-verify=${tlsVerify}`);
     }
     await execute(await getPodmanPath(), args);
     core.info(`✅ Successfully logged in to ${registry} as ${username}`);
