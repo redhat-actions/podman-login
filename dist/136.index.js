@@ -17,7 +17,7 @@ const config_resolver_1 = __webpack_require__(9316);
 const core_1 = __webpack_require__(402);
 const schema_1 = __webpack_require__(6890);
 const middleware_content_length_1 = __webpack_require__(7212);
-const middleware_endpoint_1 = __webpack_require__(99);
+const middleware_endpoint_1 = __webpack_require__(2480);
 const middleware_retry_1 = __webpack_require__(9618);
 const smithy_client_1 = __webpack_require__(1411);
 Object.defineProperty(exports, "__Client", ({ enumerable: true, get: function () { return smithy_client_1.Client; } }));
@@ -393,7 +393,7 @@ exports.ruleSet = _data;
 
 var STSClient = __webpack_require__(3723);
 var smithyClient = __webpack_require__(1411);
-var middlewareEndpoint = __webpack_require__(99);
+var middlewareEndpoint = __webpack_require__(2480);
 var EndpointParameters = __webpack_require__(6811);
 var schemas_0 = __webpack_require__(1684);
 var errors = __webpack_require__(1688);

@@ -9,7 +9,7 @@ exports.modules = {
 var __webpack_unused_export__;
 
 
-var propertyProvider = __webpack_require__(1238);
+var propertyProvider = __webpack_require__(8857);
 var sharedIniFileLoader = __webpack_require__(4964);
 var client = __webpack_require__(5152);
 var tokenProviders = __webpack_require__(5433);
@@ -432,7 +432,7 @@ var configResolver = __webpack_require__(9316);
 var core = __webpack_require__(402);
 var schema = __webpack_require__(6890);
 var middlewareContentLength = __webpack_require__(7212);
-var middlewareEndpoint = __webpack_require__(99);
+var middlewareEndpoint = __webpack_require__(2480);
 var middlewareRetry = __webpack_require__(9618);
 var smithyClient = __webpack_require__(1411);
 var httpAuthSchemeProvider = __webpack_require__(7452);
@@ -889,7 +889,7 @@ exports.GetRoleCredentials$ = [
 
 var client = __webpack_require__(5152);
 var httpAuthSchemes = __webpack_require__(7523);
-var propertyProvider = __webpack_require__(1238);
+var propertyProvider = __webpack_require__(8857);
 var sharedIniFileLoader = __webpack_require__(4964);
 var node_fs = __webpack_require__(3024);
 

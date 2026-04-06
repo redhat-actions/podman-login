@@ -37,5 +37,8 @@
     "@vercel/ncc": "^0.38.1",
     "eslint": "^8.57.0",
     "typescript": "^5.4.2"
+  },
+  "overrides": {
+    "undici": ">=7.24.0"
   }
 }
