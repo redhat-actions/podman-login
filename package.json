@@ -2,7 +2,7 @@
   "name": "podman-login",
   "version": "1.0.0",
   "engines": {
-    "node": "20"
+    "node": "24"
   },
   "description": "GitHub Action to log in against a container image registry",
   "repository": {
