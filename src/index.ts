@@ -32,7 +32,7 @@ async function run(): Promise<void> {
         throw new Error("❌ Only supported on linux platform");
     }
 
-    registry = core.getInput(Inputs.REGISTRY, { required: true });
+    registry = core.getInput(Inputs.REGISTRY, { required: true }).toLowerCase();
     let username = core.getInput(Inputs.USERNAME, { required: true });
     let password = core.getInput(Inputs.PASSWORD, { required: true });
     const logout = core.getInput(Inputs.LOGOUT) || "true";
@@ -67,7 +67,7 @@ async function run(): Promise<void> {
     if (authFilePath) {
         args.push(`--authfile=${authFilePath}`);
     }
-    await execute(await getPodmanPath(), args);
+    const loginResult = await execute(await getPodmanPath(), args);
     core.info(`✅ Successfully logged in to ${registry} as ${username}`);
 
     // Setting REGISTRY_AUTH_FILE environment variable as buildah needs
@@ -78,12 +78,22 @@ async function run(): Promise<void> {
         podmanAuthFilePath = authFilePath;
     }
     else {
-        // process.getuid might be undefined
-        let authFileDir = path.join("/", "tmp", `podman-run-${process.getuid ? process.getuid() : null}`);
-        if (process.env.XDG_RUNTIME_DIR) {
-            authFileDir = process.env.XDG_RUNTIME_DIR;
+        // Parse the auth file path from podman's --verbose output (e.g. "Used: /path/to/auth.json")
+        // rather than hardcoding it, since the path varies across podman versions and environments.
+        const usedMatch = loginResult.stdout.match(/Used:\s+(.+)/);
+        if (usedMatch) {
+            podmanAuthFilePath = usedMatch[1].trim();
+            core.info(`Detected auth file from podman output: ${podmanAuthFilePath}`);
         }
-        podmanAuthFilePath = path.join(authFileDir, "containers", "auth.json");
+        else {
+            // Fallback: construct the path from XDG_RUNTIME_DIR or the default podman location
+            let authFileDir = path.join("/", "tmp", `podman-run-${process.getuid ? process.getuid() : 0}`);
+            if (process.env.XDG_RUNTIME_DIR) {
+                authFileDir = process.env.XDG_RUNTIME_DIR;
+            }
+            podmanAuthFilePath = path.join(authFileDir, "containers", "auth.json");
+            core.warning(`Could not detect auth file path from podman output, using fallback: ${podmanAuthFilePath}`);
+        }
     }
     const REGISTRY_AUTH_ENVVAR = "REGISTRY_AUTH_FILE";
     core.info(`Exporting ${REGISTRY_AUTH_ENVVAR}=${podmanAuthFilePath}`);
