@@ -1,10 +1,28 @@
 {
-    "extends": "@redhat-actions/tsconfig",
+    "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
-      "rootDir": "src/",
-      "outDir": "out/"
+        "rootDir": "src/",
+        "outDir": "out/",
+
+        "target": "es2022",
+        "lib": ["es2022"],
+        "module": "preserve",
+        "moduleResolution": "bundler",
+        "sourceMap": true,
+
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+
+        "types": ["node"]
     },
     "include": [
-      "src/"
-    ],
+        "src/"
+    ]
 }

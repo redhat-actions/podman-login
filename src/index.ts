@@ -102,7 +102,7 @@ async function registryLogout(): Promise<void> {
 
     const dockerConfig = JSON.parse(await getDockerConfigJson());
     core.info(`Removing registry credentials from "${dockerConfigPath}"`);
-    delete dockerConfig.auths[registry];
+    delete dockerConfig.auths[stateHelper.registry];
     await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
 }
 
