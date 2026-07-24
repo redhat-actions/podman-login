@@ -15,7 +15,8 @@ import { Inputs } from "./generated/inputs-outputs";
 
 let podmanPath: string | undefined;
 let registry: string;
-const dockerConfigPath = path.join(os.homedir(), ".docker", "config.json");
+const dockerConfigDir = path.join(os.homedir(), ".docker");
+const dockerConfigPath = path.join(dockerConfigDir, "config.json");
 
 async function getPodmanPath(): Promise<string> {
     if (podmanPath == null) {
@@ -91,6 +92,7 @@ async function run(): Promise<void> {
 
     dockerConfig.auths[registry] = generatedAuth;
 
+    await fs.mkdir(dockerConfigDir, { recursive: true });
     await fs.writeFile(dockerConfigPath, JSON.stringify(dockerConfig, undefined, 8), "utf-8");
 }
 
