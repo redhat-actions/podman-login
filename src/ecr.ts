@@ -29,11 +29,20 @@ function getAccountID(registry: string): string {
 }
 
 export async function getECRToken(registry: string, username: string, password: string): Promise<ECRData> {
+    // Support AWS OIDC temporary credentials by including the session token
+    // when available (set by aws-actions/configure-aws-credentials)
+    const sessionToken = process.env.AWS_SESSION_TOKEN;
+    const credentials: { accessKeyId: string; secretAccessKey: string; sessionToken?: string } = {
+        accessKeyId: username,
+        secretAccessKey: password,
+    };
+    if (sessionToken) {
+        credentials.sessionToken = sessionToken;
+        core.info("Using AWS session token from environment for ECR authentication");
+    }
+
     const ecr = new ECR({
-        credentials: {
-            accessKeyId: username,
-            secretAccessKey: password,
-        },
+        credentials,
         region: getRegion(registry),
     });
 
