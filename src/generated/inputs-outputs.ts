@@ -26,6 +26,12 @@ export enum Inputs {
      */
     REGISTRY = "registry",
     /**
+     * Require HTTPS and verify TLS certificates when contacting the registry. Set to false for registries with self-signed certificates.
+     * Required: false
+     * Default: "true"
+     */
+    TLS_VERIFY = "tls_verify",
+    /**
      * Username to log in against the container image registry
      * Required: true
      * Default: None.
