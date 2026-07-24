@@ -58,6 +58,12 @@ async function run(): Promise<void> {
     ];
 
     args.push("--verbose");
+
+    const tlsVerify = core.getInput(Inputs.TLS_VERIFY);
+    if (tlsVerify === "false") {
+        args.push("--tls-verify=false");
+    }
+
     if (authFilePath) {
         args.push(`--authfile=${authFilePath}`);
     }
