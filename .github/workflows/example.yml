@@ -1,10 +1,18 @@
 name: Test Login and Pull
 on:
   push:
+    branches: [main]
   pull_request_target:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'  # every day at midnight
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 env:
   IMAGE_PATH: quay.io/redhat-github-actions/petclinic-private:latest
@@ -15,7 +23,7 @@ env:
 jobs:
   podman-pull:
     name: Log in and pull image with Podman
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -23,7 +31,7 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install latest podman
         if: matrix.install_latest
@@ -43,14 +51,14 @@ jobs:
 
   buildah-pull:
     name: Log in and pull image with Buildah
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         install_latest: [ true, false ]
     steps:
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install latest podman
         if: matrix.install_latest
@@ -69,14 +77,14 @@ jobs:
 
   docker-pull:
     name: Log in and pull image with Docker
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         install_latest: [ true, false ]
     steps:
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install latest podman
         if: matrix.install_latest
