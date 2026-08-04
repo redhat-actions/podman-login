@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 env:
-  IMAGE_PATH: quay.io/redhat-github-actions/petclinic-private:latest
+  IMAGE_PATH: quay.io/redhat-github-actions/ptr-test:v1
   REGISTRY_USER: redhat-github-actions+redhat_actions_ci_puller
   IMAGE_REGISTRY: quay.io
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
